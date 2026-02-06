@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Be My Valentine? ❤️</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px 30px;
+      border-radius: 25px;
+      text-align: center;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.5rem;
+      color: #e63946;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .heart {
+      font-size: 3rem;
+      animation: pulse 1.2s infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .yes-btn {
+      background: #e63946;
+      color: #fff;
+    }
+
+    .yes-btn:hover {
+      background: #d62828;
+      transform: scale(1.1);
+    }
+
+    .no-btn {
+      background: #ccc;
+      color: #555;
+      position: relative;
+    }
+
+    .no-btn:hover {
+      background: #bbb;
+    }
+
+    .message {
+      margin-top: 25px;
+      font-size: 1.1rem;
+      color: #e63946;
+      font-weight: 600;
+      display: none;
+      animation: pop 0.6s ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Floating hearts */
+    .floating-hearts span {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 8s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      100% {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Hearts -->
+  <div class="floating-hearts" id="hearts"></div>
+
+  <!-- Background Music (Add the song file in same folder as this HTML) -->
+  <audio id="bgMusic" src="running-to-you.mp3.mp3" loop controls style="display:none;"></audio>
+
+  <div class="container">
+    <div class="heart">❤️</div>
+
+    
+
+    <h1>Hey My Juju Baby 💕</h1>
+
+    <p>
+      From the moment you came into my life, everything became brighter, sweeter, and more beautiful.
+      You make me smile in ways I never imagined… and today, I have one special question for you.
+    </p>
+
+    <h2>Juju Baby, Will You Be My Valentine? 💖</h2>
+
+    <div class="buttons">
+      <button class="yes-btn" onclick="sayYes()">Yes, Of Course! 😘</button>
+      <button class="no-btn" id="noBtn">No 😜</button>
+    </div>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const message = document.getElementById("message");
+    const heartsContainer = document.getElementById("hearts");
+    const bgMusic = document.getElementById("bgMusic");
+
+    // Enable music on first user interaction (for browser autoplay rules)
+    document.addEventListener("click", () => {
+      if (bgMusic && bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+      }
+    }, { once: true });
+
+    // Make "No" button run away 😄
+    noBtn.addEventListener("mouseover", () => {
+      const x = Math.random() * 250 - 125;
+      const y = Math.random() * 250 - 125;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    function sayYes() {
+      // Play background music on interaction
+      if (bgMusic) {
+        bgMusic.play().catch(() => {});
+      }
+      message.style.display = "block";
+      message.innerHTML = "Yaaay!!! 💃❤️ You just made me the happiest person alive! 🌹🥰<br><br>Please take a screenshot of this and send it to me, my love 😘📸💕";
+      createHeartBurst();
+    }
+
+    // Floating hearts generator
+    function createFloatingHearts() {
+      const heart = document.createElement("span");
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 5 + Math.random() * 5 + "s";
+      heart.style.fontSize = 15 + Math.random() * 25 + "px";
+
+      heartsContainer.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 10000);
+    }
+
+    setInterval(createFloatingHearts, 600);
+
+    // Extra burst when she says yes
+    function createHeartBurst() {
+      for (let i = 0; i < 30; i++) {
+        setTimeout(createFloatingHearts, i * 100);
+      }
+    }
+  </script>
+
+</body>
+</html>
